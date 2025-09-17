@@ -6,10 +6,11 @@
 #include <assert.h>
 #include <fcntl.h>
 #include <string.h>
+#include <ctype.h>
 
-typedef struct {
+typedef struct { // Структура для строки
     char* str;
-    size_t size_str;
+    char* str_end;
 } String;
 
 int SizeOfFile(const char* filename);
@@ -18,10 +19,11 @@ int CountStr(const char* buffer);
 void CreateArrPoint(String* arr_pointer, char* buffer);
 void OutPutText(String* arr_pointer, int numOfStr);
 void swap(String* struct1, String* struct2);
-String* bublesort(String* arrate, size_t numOfElem);
+String* bublesort(String* arrate, size_t numOfElem, int (*cmp) (String* , String*));
 void ArrStructCopy(String* from, String* to);
+int my_strcmp(String* strct1, String* strct2);
+int my_strcmp_end(String* strct1, String* strct2);
 // char* my_strdup(const char *s);
-
 
 int main() {
     
@@ -53,16 +55,43 @@ int main() {
     
     // OutPutBuffer(bufer);
 
+    printf("Original text: \n\n");
+
     OutPutText(arr_pointer, numOfStr);
     printf("\n\n\n");
-    OutPutText(bublesort(arr_pointer, numOfStr), numOfStr);
+
+    
+    String* sortedRtoL = bublesort(arr_pointer, numOfStr, *my_strcmp);
+    
+    printf("Sorted Left to Right\n\n");
+    
+    OutPutText(sortedRtoL, numOfStr);
+    
+    free(sortedRtoL);
+    
     printf("\n\n\n");
+    
+    String* sortedLtoR = bublesort(arr_pointer, numOfStr, *my_strcmp_end);
+    
+    printf("Sorted Right to Left\n\n");
+
+    OutPutText(sortedLtoR, numOfStr);
+    
+    free(sortedLtoR);
+
+    printf("\n\n\n");
+
+    printf("Original text again\n\n");
+
     OutPutText(arr_pointer, numOfStr);
 
     free(arr_pointer);
     free(buffer);
 
     printf("\n");
+
+    printf("End code\n");
+
     fclose(file);
 }
 
@@ -94,11 +123,12 @@ void CreateArrPoint(String* arr_pointer, char* buffer) {
         assert(str_char);
 
         *str_char = '\0';
-        str_char += 1;
         
         (arr_pointer + i) -> str = buffer;
-        (arr_pointer + i) -> size_str = str_char - buffer;
+        (arr_pointer + i) -> str_end = str_char - 1;
         
+        str_char += 1;
+
         buffer = str_char;
         str_char = strchr(buffer, '\n');
         // printf("Pointer [%d] %p\n", i, buffer);
@@ -108,7 +138,7 @@ void CreateArrPoint(String* arr_pointer, char* buffer) {
     str_char = strchr(buffer, '\0');
 
     arr_pointer[i].str = buffer;
-    arr_pointer[i].size_str = str_char - buffer;
+    arr_pointer[i].str_end = str_char - 1;
 }
 
 int CountStr(const char* buffer) { // ������� ���������� �����
@@ -175,7 +205,7 @@ size_t Maxlen(char* buffer) {
     return maxlen;
 }
 
-String* bublesort(String* arr, size_t numOfElem) {
+String* bublesort(String* arr, size_t numOfElem, int (*cmp) (String* , String* )) {
     
     String* arrate = (String* ) calloc(numOfElem + 1, sizeof(arr[0]));
 
@@ -199,7 +229,7 @@ String* bublesort(String* arr, size_t numOfElem) {
         
             // print
 
-            if (strcmp(elem1, elem2) > 0) {
+            if (cmp(&arrate[i - 1], &arrate[i]) > 0) {
                 swap(&arrate[i - 1], &arrate[i]);
                 // puts(arrate[i].str);
                 // puts(arrate[i + 1].str);
@@ -209,8 +239,8 @@ String* bublesort(String* arr, size_t numOfElem) {
             // printf("elem1 = %s\n", arrate[i - 1].str);
             // printf("elem2 = %s\n\n", arrate[i].str);
 
-            elem1 = arrate[i].str;
-            elem2 = arrate[i + 1].str;
+            // elem1 = arrate[i].str;
+            // elem2 = arrate[i + 1].str;
 
             // printf("elem1 = %s\n", elem1);
             // printf("elem2 = %s\n\n", elem2);
@@ -236,19 +266,60 @@ void swap(String* struct1, String* struct2) {
 }
 
 void ArrStructCopy(String* from, String* to) {
-    printf("Start copy\n\n");
+    // printf("Start copy\n\n");
     
     while (from -> str != NULL ) {
         
-        printf("itaration\n\n");
+        // printf("itaration\n\n");
 
         *to++ = *from++;
     }
 
-    printf("End copy\n\n");
+    // printf("End copy\n\n");
 
 }
 
-void SortRtoL(String* arr_pointer) { // Написать сортировку
+int my_strcmp(String* strct1, String* strct2) {
+    return strcmp(strct1->str, strct2->str);
+}
 
+int my_strcmp_end(String* strct1, String* strct2) {
+    // printf("Start comaprison of end\n");
+    
+    char* str1 = strct1->str_end;
+    char* str2 = strct2->str_end;
+
+    while (!isalpha(*str1)) {
+        str1--;
+    }
+
+    while (!isalpha(*str2)) {
+        str2--;
+    }
+
+    while (*str2 == *str1) {
+        
+        if (isalpha(*str1)) {
+            str1--;
+        } else {
+            while (!isalpha(*str1)) {
+                str1--;
+            }
+        }
+
+        if (isalpha(*str2)) {
+            str2--;
+        } else {
+            while (!isalpha(*str2)) {
+                str2--;
+            }
+        }
+    }
+
+    // printf("%c", str1);
+    // printf("%c")
+
+    // printf("Return my_strcmp_end: %d\n", *str1 - *str2);
+
+    return (int) (*str1 - *str2);
 }
