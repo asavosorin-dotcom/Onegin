@@ -56,6 +56,8 @@ int main() {
     OutPutText(arr_pointer, numOfStr);
     printf("\n\n\n");
     OutPutText(bublesort(arr_pointer, numOfStr), numOfStr);
+    printf("\n\n\n");
+    OutPutText(arr_pointer, numOfStr);
 
     free(arr_pointer);
     free(buffer);
@@ -173,11 +175,11 @@ size_t Maxlen(char* buffer) {
     return maxlen;
 }
 
-String* bublesort(String* arrate, size_t numOfElem) {
+String* bublesort(String* arr, size_t numOfElem) {
     
-    // String* arrate = (String* ) calloc(numOfElem + 1, sizeof(arr[0]));
+    String* arrate = (String* ) calloc(numOfElem + 1, sizeof(arr[0]));
 
-    // ArrStructCopy(arr, arrate);
+    ArrStructCopy(arr, arrate);
 
     // OutPutText(arrate, numOfElem);
 
@@ -233,23 +235,19 @@ void swap(String* struct1, String* struct2) {
 
 }
 
-// void OutPutBuffer(char* buffer, int numOfStr) {
-//     for (int i = 0; i < )
-// }
-
-// void ArrStructCopy(String* from, String* to) {
-//     printf("Start copy\n\n");
+void ArrStructCopy(String* from, String* to) {
+    printf("Start copy\n\n");
     
-//     while (from -> str != NULL ) {
+    while (from -> str != NULL ) {
         
-//         printf("itaration\n\n");
+        printf("itaration\n\n");
 
-//         *to++ = *from++;
-//     }
+        *to++ = *from++;
+    }
 
-//     printf("End copy\n\n");
+    printf("End copy\n\n");
 
-// }
+}
 
 void SortRtoL(String* arr_pointer) { // Написать сортировку
 
