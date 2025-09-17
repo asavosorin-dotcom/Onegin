@@ -17,6 +17,9 @@ size_t Maxlen(char* buffer);
 int CountStr(const char* buffer);
 void CreateArrPoint(String* arr_pointer, char* buffer);
 void OutPutText(String* arr_pointer, int numOfStr);
+void swap(String* struct1, String* struct2);
+String* bublesort(String* arrate, size_t numOfElem);
+void ArrStructCopy(String* from, String* to);
 // char* my_strdup(const char *s);
 
 
@@ -39,14 +42,20 @@ int main() {
 
     String* arr_pointer = (String* ) calloc(numOfStr + 1, sizeof(String));
     
-    printf("Pointer of arr_pointer = %p\n", arr_pointer);
+    // printf("%s", arr_pointer[numOfStr].str);
+
+    // printf("Pointer of arr_pointer = %p\n\n", arr_pointer);
 
     // printf("Size of string = %zu\n", sizeof(String));
     // printf("%zu\n", numOfStr);
     
     CreateArrPoint(arr_pointer, buffer);
     
+    // OutPutBuffer(bufer);
+
     OutPutText(arr_pointer, numOfStr);
+    printf("\n\n\n");
+    OutPutText(bublesort(arr_pointer, numOfStr), numOfStr);
 
     free(arr_pointer);
     free(buffer);
@@ -111,7 +120,7 @@ int CountStr(const char* buffer) { // ������� �������
         buffer++;
     }
 
-    printf("Count = %d\n", count + 1);
+    // printf("Count = %d\n\n", count + 1);
 
     return ++count;
 }
@@ -135,8 +144,9 @@ char* my_strdup(const char *s) {
 
 void OutPutText(String* arr_pointer, int numOfStr) { // Спросить у Саши, что ха хуйня с выводом длины
     for (int i = 0; i < (int) numOfStr; i++) {
-        // puts(arr_pointer[i].str);
-        printf("%s %lu\n", arr_pointer[i].str, arr_pointer[i].size_str);
+        puts(arr_pointer[i].str);
+        // printf("%s %lu\n", arr_pointer[i].str, arr_pointer[i].size_str);
+        // printf("%s %lu\n", arr_pointer[i].str, arr_pointer[i].size_str);
     }
 }
 
@@ -163,33 +173,83 @@ size_t Maxlen(char* buffer) {
     return maxlen;
 }
 
-char* bublesort(char* arrate, size_t numOfElem) {
+String* bublesort(String* arrate, size_t numOfElem) {
     
-    for (size_t j = 0; j < numOfElem; j++){
+    // String* arrate = (String* ) calloc(numOfElem + 1, sizeof(arr[0]));
+
+    // ArrStructCopy(arr, arrate);
+
+    // OutPutText(arrate, numOfElem);
+
+    for (size_t j = 0; j <= numOfElem; j++) {
         
-        char* elem1 = &arrate[0];
-        char* elem2 = &arrate[1];
+        char* elem1 = arrate[0].str;
+        char* elem2 = arrate[1].str;
         
         // printf("[%ld]\n", j);
 
         for (size_t i = 1; i < numOfElem; i++) { // Ставит наибольший элемент в конец
-            if (*elem1 > *elem2) {
-                swap(elem1, elem2);
+            
+            // printf("[%ld] itaration\n\n\n", i);
+
+            // printf("elem1 = %s\n", elem1);
+            // printf("elem2 = %s\n\n", elem2);
+        
+            // print
+
+            if (strcmp(elem1, elem2) > 0) {
+                swap(&arrate[i - 1], &arrate[i]);
+                // puts(arrate[i].str);
+                // puts(arrate[i + 1].str);
             }
-            elem1 = &arrate[i];
-            elem2 = &arrate[i + 1];
+
+            // printf("After swap\n\n");
+            // printf("elem1 = %s\n", arrate[i - 1].str);
+            // printf("elem2 = %s\n\n", arrate[i].str);
+
+            elem1 = arrate[i].str;
+            elem2 = arrate[i + 1].str;
+
+            // printf("elem1 = %s\n", elem1);
+            // printf("elem2 = %s\n\n", elem2);
+
+            // if (i == 3) {
+            //     break;
+            // }
         }
+
+        // break;
     }
 
     return arrate;    
 
 }
 
-void swap(char* elem1, char* elem2) {
-    char c = *elem2;
-    *elem2 = *elem1;
-    *elem1 = c;
+void swap(String* struct1, String* struct2) {
+    String c = *struct2;
+    
+    *struct2 = *struct1;
+    *struct1 = c;
+
 }
+
+// void OutPutBuffer(char* buffer, int numOfStr) {
+//     for (int i = 0; i < )
+// }
+
+// void ArrStructCopy(String* from, String* to) {
+//     printf("Start copy\n\n");
+    
+//     while (from -> str != NULL ) {
+        
+//         printf("itaration\n\n");
+
+//         *to++ = *from++;
+//     }
+
+//     printf("End copy\n\n");
+
+// }
 
 void SortRtoL(String* arr_pointer) { // Написать сортировку
 
