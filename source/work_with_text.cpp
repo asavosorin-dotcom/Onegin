@@ -1,6 +1,6 @@
 #include "work_with_text.h"
 
-int SizeOfFile(const char* filename) {
+size_t SizeOfFile(const char* filename) {
     struct stat my_stat = {};
     int description = open(filename,  O_RDONLY);
     
@@ -10,12 +10,12 @@ int SizeOfFile(const char* filename) {
 
     // printf("Size = %ld\n", my_stat.st_size);
 
-    return (int) my_stat.st_size;
+    return (size_t) my_stat.st_size;
 }
 
-int CountStr(const char* buffer) {
+size_t CountStr(const char* buffer) {
     
-    int count = 0;
+    size_t count = 0;
     
     while (*buffer != '\0') {
         

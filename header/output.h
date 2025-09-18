@@ -4,6 +4,6 @@
 #include <string.h>
 #include <stdio.h>
 #include "struct.h"
-void OutPutText(String* arr_pointer, int numOfStr);
+void OutPutText(String* arr_pointer, size_t numOfStr);
 
 #endif 

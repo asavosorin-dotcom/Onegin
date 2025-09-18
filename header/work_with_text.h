@@ -8,8 +8,8 @@
 
 
 
-int SizeOfFile(const char* filename);
+size_t SizeOfFile(const char* filename);
 size_t Maxlen(char* buffer);
-int CountStr(const char* buffer);
+size_t CountStr(const char* buffer);
 
 #endif
