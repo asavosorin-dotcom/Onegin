@@ -1,13 +1,8 @@
 #include "sort.h"
 
-void swap(char* elem1, char* elem2);
-String* bublesort(String* arrate, size_t numOfElem);
-
-String* bublesort(String* arr, size_t numOfElem, int (*cmp) (String* , String* )) {
+void bublesort(String* arrate, size_t numOfElem, int (*cmp) (const void* , const void* )) {
     
-    String* arrate = (String* ) calloc(numOfElem + 1, sizeof(arr[0]));
-
-    ArrStructCopy(arr, arrate);
+    assert(arrate);
 
     // OutPutText(arrate, numOfElem);
 
@@ -24,12 +19,6 @@ String* bublesort(String* arr, size_t numOfElem, int (*cmp) (String* , String* )
 
             // printf("elem1 = %s\n", elem1);
             // printf("elem2 = %s\n\n", elem2);
-        
-            // print
-
-            if (strcmp(arrate[i - 1].str, "\n") == 0 || strcmp(arrate[i].str, "\n") == 0) {
-                continue;
-            }
 
             if (cmp(&arrate[i - 1], &arrate[i]) > 0) {
                 swap(&arrate[i - 1], &arrate[i]);
@@ -54,12 +43,12 @@ String* bublesort(String* arr, size_t numOfElem, int (*cmp) (String* , String* )
 
         // break;
     }
-
-    return arrate;    
-
 }
 
 void swap(String* struct1, String* struct2) {
+    assert(struct1);
+    assert(struct2);
+    
     String c = *struct2;
 
     *struct2 = *struct1;
@@ -67,7 +56,13 @@ void swap(String* struct1, String* struct2) {
     *struct1 = c;
 }
 
-int my_strcmp(String* strct1, String* strct2) {
+int my_strcmp(const void* point1, const void* point2) {
+
+    assert(point1);
+    assert(point2);
+
+    const String* strct1 = (const String* ) point1;
+    const String* strct2 = (const String* ) point2;
 
     char* str1 = strct1->str;
     char* str2 = strct2->str;
@@ -80,7 +75,7 @@ int my_strcmp(String* strct1, String* strct2) {
         str2++;
     }
  
-    for (;*str1 == *str2; str1++, str2++) {
+    for (;*str1 == *str2; str1++, str2++) { // можно вызвать свою функцию
         if (*str1 == '\0')
             return 0;
 
@@ -90,9 +85,12 @@ int my_strcmp(String* strct1, String* strct2) {
 
 }
 
-int my_strcmp_end(String* strct1, String* strct2) {
+int my_strcmp_end(const void* point1, const void* point2) {
     // printf("Start comaprison of end\n");
     
+    const String* strct1 = (const String* ) point1;
+    const String* strct2 = (const String* ) point2;
+
     char* str1 = strct1->str_end;
     char* str2 = strct2->str_end;
 

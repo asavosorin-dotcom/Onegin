@@ -1,6 +1,9 @@
 #include "work_with_text.h"
 
 size_t SizeOfFile(const char* filename) {
+    
+    assert(filename);
+
     struct stat my_stat = {};
     int description = open(filename,  O_RDONLY);
     
