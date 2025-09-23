@@ -1,25 +1,24 @@
 #include "main.h"
 
-// char* my_strdup(const char *s);
-
 int main() {
     
-    const char* filename1 = "sheks.txt";
+    const char* filename1 = "oneg.txt";
     const char* filename = "oneg.txt";
 
     FILE* fileout = fopen("output.txt", "w");
         
-    Buffer* struct_buffer = CreateBuffer(filename);
-    assert(struct_buffer);
+    Buffer struct_buffer = CreateBuffer(filename);
+    // assert(struct_buffer);
 
-    char* buffer = struct_buffer->buff;
-    size_t numOfElem = struct_buffer->buff_size;
+    char* buffer = struct_buffer.buff;
+    size_t numOfElem = struct_buffer.buff_size;
 
-    Buffer* struct_buffer1 = CreateBuffer(filename1);
-    assert(struct_buffer1);
+    Buffer struct_buffer1 = CreateBuffer(filename1);
+    // assert(struct_buffer1);
 
-    char* buffer1 = struct_buffer1->buff;
-    size_t numOfElem1 = struct_buffer1->buff_size;
+
+    char* buffer1 = struct_buffer1.buff;
+    size_t numOfElem1 = struct_buffer1.buff_size;
 
     // printf("%s", buffer);
     // size_t maxlen = Maxlen(buffer);
@@ -33,7 +32,7 @@ int main() {
 
     // printf("Size of string = %zu\n", sizeof(String));
     // printf("%zu\n", numOfStr);
-    
+    //                      X 
     CreateArrPoint(arr_pointer, buffer + 1);
     
     // OutPutBuffer(bufer);
@@ -47,20 +46,19 @@ int main() {
     printSort(fileout, arr_pointer, numOfStr, *my_strcmp);
 
     fprintf(fileout, "Sorted Right to Left\n\n");
-    printSort(fileout, arr_pointer, numOfStr, *my_strcmp_end);
-
+    printQSort(fileout, arr_pointer, numOfStr, *my_strcmp_end);
 
     fprintf(fileout, "Original text again\n\n");
     // OutPutText(fileout, arr_pointer, numOfStr);
 
     OutPutBuf(buffer, fileout, numOfElem);
 
-    fprintf(fileout, "\n\n\n");
+    fprintf(fileout, "Onegin\n\n\n");
 
     OutPutBuf(buffer1, fileout, numOfElem1);
 
-    free(struct_buffer);
-    free(struct_buffer1);
+    // free(struct_buffer);
+    // free(struct_buffer1);
 
     free(arr_pointer);
     free(buffer);
@@ -71,6 +69,8 @@ int main() {
     fprintf(fileout, "End code\n");
 
     fclose(fileout);
+
+    return 0;
 }
 
 
@@ -122,18 +122,27 @@ void CreateArrPoint(String* arr_pointer, char* buffer) {
 }
 
 void printSort(FILE* fileout, String* arr_pointer, size_t numOfStr, int (*cmp) (const void* , const void* )) {
-    // bublesort(arr_pointer, numOfStr, *cmp);
-    qsort(arr_pointer, numOfStr, sizeof(String), *cmp); 
-
+    bublesort(arr_pointer, numOfStr, *cmp);
 
     OutPutText(fileout, arr_pointer, numOfStr);
-    
+
     fprintf(fileout, "\n\n\n");
 }
 
-Buffer* CreateBuffer(const char* filename) {
+void printQSort(FILE* fileout, String* arr_pointer, size_t numOfStr, int (*cmp) (const void* , const void* )) {
+    qsort(arr_pointer, numOfStr, sizeof(String), *cmp); 
+
+    OutPutText(fileout, arr_pointer, numOfStr);
+
+    fprintf(fileout, "\n\n\n");
+}
+
+// 1 2 3 2 1 4 5
+
+Buffer CreateBuffer(const char* filename) {
     
-    Buffer* point_struct = (Buffer* ) calloc(1, sizeof(Buffer));
+    // Buffer* point_struct = (Buffer* ) calloc(1, sizeof(Buffer));
+    Buffer point_struct = {0};
     // assert(struct_buf);
 
     FILE* file = fopen(filename, "r");
@@ -144,8 +153,11 @@ Buffer* CreateBuffer(const char* filename) {
     char* buffer = (char* ) calloc(numOfElem + 2, sizeof(char));
     size_t numOfElemNew = fread(buffer + 1, sizeof(char), numOfElem + 1, file);
 
-    point_struct->buff = buffer;
-    point_struct->buff_size = numOfElemNew;
+    // point_struct->buff = buffer;
+    // point_struct->buff_size = numOfElemNew;
+
+    point_struct.buff = buffer;
+    point_struct.buff_size = numOfElemNew;
 
     fclose(file);
 

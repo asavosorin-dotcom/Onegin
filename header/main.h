@@ -16,9 +16,11 @@ typedef struct {
     size_t buff_size;
 } Buffer; 
 
-Buffer* CreateBuffer(const char* filename);
+Buffer CreateBuffer(const char* filename);
 
 void CreateArrPoint(String* arr_pointer, char* buffer);
 void printSort(FILE* fileout, String* arr_pointer, size_t numOfStr, int (*cmp) (const void* , const void* ));
 void OutPutBuf(char* buffer, FILE* fileout, size_t numOfElemNew);
+void printQSort(FILE* fileout, String* arr_pointer, size_t numOfStr, int (*cmp) (const void* , const void* ));
+
 #endif

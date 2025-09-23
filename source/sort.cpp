@@ -1,19 +1,21 @@
 #include "sort.h"
 
+// 3 3 5 5 3 1 2 5 6 7
+
 void bublesort(String* arrate, size_t numOfElem, int (*cmp) (const void* , const void* )) {
     
     assert(arrate);
 
     // OutPutText(arrate, numOfElem);
 
-    for (size_t j = 0; j <= numOfElem; j++) {
+    for (size_t j = 0; j <= numOfElem - 1; j++) {
         
         // char* elem1 = arrate[0].str;
         // char* elem2 = arrate[1].str;
         
         // printf("[%ld]\n", j);
 
-        for (size_t i = 1; i < numOfElem; i++) { // Ставит наибольший элемент в конец
+        for (size_t i = 1; i < numOfElem - j - 1; i++) { // Ставит наибольший элемент в конец
             
             // printf("[%ld] itaration\n\n\n", i);
 
